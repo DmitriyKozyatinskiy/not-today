@@ -121,6 +121,9 @@ a{color:inherit}
 .delta-pill{display:inline-flex;align-items:center;gap:5px;background:var(--acc);color:var(--white);
   font-family:"Oswald";font-weight:600;letter-spacing:.04em;font-size:.78rem;padding:3px 9px;text-transform:uppercase}
 .delta-pill.up::before{content:"▲";font-size:.6em}
+.hero-upd{margin-top:10px;font-size:.74rem;font-weight:600;color:#c9c7b4;display:flex;align-items:center;gap:7px}
+.hero-upd::before{content:"";width:7px;height:7px;border-radius:50%;background:#8fc97a;box-shadow:0 0 0 3px rgba(143,201,122,.2)}
+.hero-upd.stale::before{background:#e0a43c;box-shadow:0 0 0 3px rgba(224,164,60,.2)}
 .forecast{margin-top:12px;font-size:.8rem;font-weight:600;color:#e7e1d1;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
 .forecast b{color:var(--acc-bright);font-weight:800}
 .forecast .arr{color:var(--acc-bright)}
@@ -334,6 +337,7 @@ body.embed .hero{border-top:4px solid var(--acc-bright)}
       <span class="hero-goal" id="heroGoal">мета 3 000 000 ₴</span>
       <span class="delta-pill up" id="heroDelta" style="display:none"></span>
     </div>
+    <div class="hero-upd" id="heroUpd"></div>
     <div class="forecast" id="forecast"></div>
   </div>
   </div>
@@ -635,6 +639,14 @@ function render(M){
 
   if(M.dailyCollected!=null && M.dailyCollected>0){
     const hd=$("#heroDelta"); hd.style.display=""; hd.textContent=`+${fmtMoney(M.dailyCollected,0)} сьогодні`;
+  }
+  // час останнього оновлення сум (останній знімок у «snapshots»)
+  if(M.dataAsOf){
+    const hrs=(Date.now()-M.dataAsOf.getTime())/3600000;
+    const ago=hrs<1?`${Math.max(1,Math.round(hrs*60))} хв тому`:`${Math.floor(hrs)} год тому`;
+    const u=$("#heroUpd");
+    u.textContent=`Оновлено ${kyivDateStr(M.dataAsOf)} (${ago})`;
+    if(hrs>CONFIG.updateHours*2) u.classList.add("stale");
   }
   // forecast
   if(M.days) $("#forecast").innerHTML=`<span class="arr">↗</span> Прогноз: до ${dl()} — <b>${M.days}</b> дн · потрібно <b>${fmtMoney(M.needPerDay,0)}</b>/день`
