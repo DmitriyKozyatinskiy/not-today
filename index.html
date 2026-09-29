@@ -409,7 +409,7 @@ const CONFIG = {
   unit: ["CLS BAG","CLS BAG","CLS BAG"],   // відмінки для plural()
   totalLots: null,          // null → рахуємо з таблиці (банки з «Є» у «Розіграш»)
   deadline: null,           // "YYYY-MM-DD" (Київ) → з'явиться прогноз «потрібно ₴/день»; null — без прогнозу
-  updateHours: 4,           // орієнтовна частота оновлення, год
+  updateHours: 3,           // частота оновлення (launchd на Mac — кожні 3 год)
   mainJarBalance: 0,        // баланс «Основної банки» фонду, ₴ (браузер не читає monobank). 0 = рахувати лише банки учасників; впишіть число вручну за потреби
   // плейсхолдери замовника (TZ §8)
   ctaUrl: "https://send.monobank.ua/jar/7XqfazGFbr",   // основна банка збору
